@@ -1,0 +1,10 @@
+= Showcase: Apache SHIRO with JAX-RS and Login
+
+This small project demonstrates how to use Apache Shiro with JAX-RS, CDI 2.0 and a JAX-RS login endpoint.
+It also uses `<multipart-config>`, which cannot be set via annotations yet.
+
+== Executing the showcase
+
+* Run `./mvnw clean liberty:dev`.
+* Hit `<Enter>` to run the unit tests.
+

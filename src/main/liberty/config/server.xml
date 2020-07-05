@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="shiro-jaxrs-showcase">
+  <!-- Enable features -->
+  <featureManager>
+    <feature>jaxrs-2.1</feature>
+    <feature>jsonb-1.0</feature>
+    <feature>cdi-2.0</feature>
+    <feature>servlet-4.0</feature>
+    <feature>localConnector-1.0</feature>
+  </featureManager>
+  <cdi12 enableImplicitBeanArchives="false" />
+  <webContainer deferServletLoad="false" />
+
+  <variable name="default.http.port" defaultValue="9080"/>
+  <variable name="default.https.port" defaultValue="9443"/>
+  <variable name="app.context.root" defaultValue="shiro-jaxrs-showcase"/>
+
+  <!-- tag::httpEndpoint[] -->
+  <httpEndpoint httpPort="${default.http.port}"
+                httpsPort="${default.https.port}" id="defaultHttpEndpoint"  host="*" />
+  <!-- end::httpEndpoint[] -->
+  <webApplication id="shiro-jaxrs-showcase" location="shiro-jaxrs-showcase.war" contextRoot="${app.context.root}" />
+
+</server>
+
