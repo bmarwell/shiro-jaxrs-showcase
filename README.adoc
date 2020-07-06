@@ -6,5 +6,5 @@ It also uses `<multipart-config>`, which cannot be set via annotations yet.
 == Executing the showcase
 
 * Run `./mvnw clean liberty:dev`.
-* Hit `<Enter>` to run the unit tests.
+* Hit `<Enter>` to run the integration tests.
 
