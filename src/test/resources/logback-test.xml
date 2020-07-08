@@ -9,6 +9,7 @@
     <logger name="org.apache.shiro" level="info" />
     <logger name="org.apache.commons.beanutils" level="warn" />
     <logger name="org.apache.commons.httpclient" level="info" />
+    <logger name="httpclient.wire" level="info" />
 
     <root level="debug">
         <appender-ref ref="STDOUT" />
