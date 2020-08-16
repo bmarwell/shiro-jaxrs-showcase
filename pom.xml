@@ -25,6 +25,12 @@
 
   <dependencies>
     <!-- EE / mp APIs -->
+    <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>4.0.4</version>
+    </dependency>
     <dependency>
       <groupId>jakarta.ws.rs</groupId>
       <artifactId>jakarta.ws.rs-api</artifactId>
@@ -70,6 +76,11 @@
       <artifactId>shiro-jaxrs</artifactId>
       <version>1.5.3</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-servlet-plugin</artifactId>
+      <version>1.5.3</version>
+    </dependency>
 
     <!-- tests -->
 
@@ -79,11 +90,11 @@
       <version>5.6.2</version>
       <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
     <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-      <version>3.1</version>
-      <scope>test</scope>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.12</version>
       <exclusions>
         <exclusion>
           <groupId>commons-logging</groupId>

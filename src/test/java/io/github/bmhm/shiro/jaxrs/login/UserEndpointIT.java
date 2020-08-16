@@ -1,21 +1,25 @@
 package io.github.bmhm.shiro.jaxrs.login;
 
-import io.github.bmhm.shiro.jaxrs.login.dto.LoginData;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbConfig;
 import javax.ws.rs.core.MediaType;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import io.github.bmhm.shiro.jaxrs.login.dto.LoginData;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserEndpointIT {
 
@@ -36,17 +40,22 @@ class UserEndpointIT {
 
     @Test
     public void testLoginSuccess() throws IOException {
-        HttpClient client = new HttpClient();
-        PostMethod method = new PostMethod(URL + "/user/login");
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost method = new HttpPost(URL + "/user/login");
 
         LoginData loginData = new LoginData("admin", "admin");
         String httpPostAdmin = JSONB.toJson(loginData);
-        method.setRequestEntity(new StringRequestEntity(httpPostAdmin, MediaType.APPLICATION_JSON, StandardCharsets.UTF_8.displayName()));
+        final BasicHttpEntity entity = new BasicHttpEntity();
+        entity.setContent(new ByteArrayInputStream(httpPostAdmin.getBytes(StandardCharsets.UTF_8)));
+        entity.setContentEncoding("UTF-8");
+        entity.setContentType(MediaType.APPLICATION_JSON);
+        method.setEntity(entity);
 
         try {
-            int statusCode = client.executeMethod(method);
+            CloseableHttpResponse response = client.execute(method);
 
-            assertEquals(HttpStatus.SC_ACCEPTED, statusCode, "HTTP POST failed");
+            assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode(), "HTTP POST failed");
+            System.out.println(Arrays.asList(response.getAllHeaders()));
         } finally {
             method.releaseConnection();
         }
@@ -54,17 +63,20 @@ class UserEndpointIT {
 
     @Test
     public void testLoginFail() throws IOException {
-        HttpClient client = new HttpClient();
-        PostMethod method = new PostMethod(URL + "/user/login");
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost method = new HttpPost(URL + "/user/login");
 
         LoginData loginData = new LoginData("fail", "me");
         String httpPostAdmin = JSONB.toJson(loginData);
-        method.setRequestEntity(new StringRequestEntity(httpPostAdmin, MediaType.APPLICATION_JSON, StandardCharsets.UTF_8.displayName()));
-
+        final BasicHttpEntity entity = new BasicHttpEntity();
+        entity.setContent(new ByteArrayInputStream(httpPostAdmin.getBytes(StandardCharsets.UTF_8)));
+        entity.setContentEncoding("UTF-8");
+        entity.setContentType(MediaType.APPLICATION_JSON);
+        method.setEntity(entity);
         try {
-            int statusCode = client.executeMethod(method);
+            CloseableHttpResponse response = client.execute(method);
 
-            assertEquals(HttpStatus.SC_UNAUTHORIZED, statusCode, "HTTP POST should have failed");
+            assertEquals(HttpStatus.SC_UNAUTHORIZED, response.getStatusLine().getStatusCode(), "HTTP POST failed");
         } finally {
             method.releaseConnection();
         }

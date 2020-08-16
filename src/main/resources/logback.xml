@@ -6,10 +6,10 @@
         </encoder>
     </appender>
 
-    <logger name="org.apache.shiro" level="info" />
+    <logger name="org.apache.shiro" level="trace" />
     <logger name="org.apache.commons.beanutils" level="warn" />
-    <logger name="org.apache.commons.httpclient" level="info" />
-    <logger name="httpclient.wire" level="info" />
+    <logger name="org.apache.http" level="info" />
+    <logger name="org.apache.http.headers" level="debug" />
 
     <root level="debug">
         <appender-ref ref="STDOUT" />
